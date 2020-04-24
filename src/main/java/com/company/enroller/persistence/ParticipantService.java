@@ -13,7 +13,6 @@ public class ParticipantService {
 
 	Session session;
 	
-
 	public ParticipantService() {
 		session = DatabaseConnector.getInstance().getSession();
 	}
