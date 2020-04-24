@@ -28,4 +28,10 @@ public class MeetingsRestController {
 		Collection<Meeting> participants = meetingService.getAll();
 		return new ResponseEntity<Collection<Meeting>>(participants, HttpStatus.OK);
 	}
+	
+//	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+//	public ResponseEntity<?> getMeeting(@PathVariable("id") long id) {
+//	    Meeting meeting = meetingService.findById(id);
+//	    return new ResponseEntity<Meeting>(meeting, HttpStatus.OK); 
+//		}
 }

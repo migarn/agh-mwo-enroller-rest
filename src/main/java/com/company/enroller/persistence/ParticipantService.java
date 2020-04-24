@@ -38,5 +38,12 @@ public class ParticipantService {
 		session.delete(participant);
 		transaction.commit();
 	}
+	
+	public Participant updatePassword(Participant participant) {
+		Transaction transaction = this.session.beginTransaction();
+		session.merge(participant);
+		transaction.commit();
+		return participant;		
+	}
 
 }

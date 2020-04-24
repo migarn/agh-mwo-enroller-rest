@@ -32,8 +32,7 @@ public class ParticipantRestController {
 	    Participant participant = participantService.findByLogin(login);
 	    if (participant == null) { 
 	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
-	    } 
-
+	    }
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
 		}
 	
@@ -53,10 +52,19 @@ public class ParticipantRestController {
 	    Participant participant = participantService.findByLogin(login);
 	    if (participant == null) { 
 	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
-	    } 
-	    
+	    }
 	    participantService.delete(participant);
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
 		}
+	
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public ResponseEntity<?> updatePassword(@RequestBody Participant participant) {
+	    Participant foundParticipant = participantService.findByLogin(participant.getLogin());
+	    if (foundParticipant == null) { 
+	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
+	    }
+	    participantService.updatePassword(participant);
+	    return new ResponseEntity<Participant>(participant, HttpStatus.ACCEPTED);
+	}
 
 }
