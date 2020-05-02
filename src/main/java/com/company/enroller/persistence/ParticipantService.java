@@ -38,8 +38,9 @@ public class ParticipantService {
 		transaction.commit();
 	}
 	
-	public Participant updatePassword(Participant participant) {
+	public Participant updatePassword(Participant participant, String password) {
 		Transaction transaction = this.session.beginTransaction();
+		participant.setPassword(password);
 		session.merge(participant);
 		transaction.commit();
 		return participant;		

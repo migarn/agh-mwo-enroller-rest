@@ -57,13 +57,13 @@ public class ParticipantRestController {
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public ResponseEntity<?> updatePassword(@RequestBody Participant participant) {
-	    Participant foundParticipant = participantService.findByLogin(participant.getLogin());
-	    if (foundParticipant == null) { 
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updatePassword(@PathVariable("id") String login, @RequestBody String password) {
+	    Participant participant = participantService.findByLogin(login);
+	    if (participant == null) { 
 	    	return participantNotFound();
 	    }
-	    participantService.updatePassword(participant);
+	    participantService.updatePassword(participant, password);
 	    return new ResponseEntity<Participant>(participant, HttpStatus.ACCEPTED);
 	}
 	
