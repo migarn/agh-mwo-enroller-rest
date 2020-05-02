@@ -56,6 +56,9 @@ public class MeetingsRestController {
 		if (participant == null) {
 			return new ResponseEntity("Unable to create. Participant with login " + login + " not found.",HttpStatus.NOT_FOUND);
 		}
+	    if (meeting.getParticipants().contains(participant)) {
+	    	return new ResponseEntity("Participant already exist on meeting's participants list.", HttpStatus.CONFLICT);
+	    }
 		meetingService.addParticipant(meeting, participant);
 	    return new ResponseEntity<Participant>(participant, HttpStatus.CREATED);
 	}
@@ -106,13 +109,6 @@ public class MeetingsRestController {
 	    meetingService.deleteParticipant(meeting, participant);
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
 	}
-	
-	// add uniemożliwić drugi raz
-	
-	
-	
-	
-	
 	
 	private ResponseEntity meetingNotFound() {
 		return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);
