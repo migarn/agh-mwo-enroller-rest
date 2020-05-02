@@ -35,5 +35,14 @@ public class MeetingService {
 		transaction.commit();
 		return meeting;
 	}
+	
+	public Participant addParticipant(long id, Participant participant) {
+		Transaction transaction = this.session.beginTransaction();
+		Meeting meeting = findById(id);
+		meeting.addParticipant(participant);
+		session.merge(meeting);
+		transaction.commit();
+		return participant;
+	}
 
 }

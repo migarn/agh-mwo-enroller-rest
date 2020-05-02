@@ -42,4 +42,10 @@ public class MeetingsRestController {
 	    meetingService.add(meeting);
 	    return new ResponseEntity<Meeting>(meeting, HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public ResponseEntity<?> addParticipant(@RequestBody Meeting meeting) {
+	    meetingService.add(meeting);
+	    return new ResponseEntity<Meeting>(meeting, HttpStatus.CREATED);
+	}
 }
