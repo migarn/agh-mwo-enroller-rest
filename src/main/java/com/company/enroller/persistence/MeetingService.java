@@ -1,6 +1,8 @@
 package com.company.enroller.persistence;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Transaction;
@@ -44,7 +46,11 @@ public class MeetingService {
 		return participant;
 	}
 	
-	public Collection<Participant> getParticipants(Meeting meeting) {
-		return meeting.getParticipants();
+	public Collection<String> getParticipants(Meeting meeting) {
+		Set<String> participants = new HashSet<>();
+		for (Participant participant : meeting.getParticipants()) {
+			participants.add(participant.getLogin());
+		}
+		return participants;
 	}
 }

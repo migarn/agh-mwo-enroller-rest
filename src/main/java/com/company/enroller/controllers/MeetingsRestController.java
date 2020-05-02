@@ -66,6 +66,6 @@ public class MeetingsRestController {
 	    if (meeting == null) {
 	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
 	    }
-	    return new ResponseEntity<Collection<Participant>>(meeting.getParticipants(), HttpStatus.OK); 
+	    return new ResponseEntity<Collection<String>>(meetingService.getParticipants(meeting), HttpStatus.OK); 
 		}
 }
