@@ -79,8 +79,18 @@ public class MeetingsRestController {
 	    return new ResponseEntity<Meeting>(meeting, HttpStatus.OK); 
 	}
 	
-
-	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updatePassword(@PathVariable("id") long id, @RequestBody Meeting meeting) {
+	    Meeting foundMeeting = meetingService.findById(id);
+	    if (foundMeeting == null) { 
+	    	return meetingNotFound();
+	    }
+	    if (id != meeting.getId()) {
+	    	return new ResponseEntity("IDs do not match.", HttpStatus.CONFLICT);
+	    }
+	    meetingService.update(meeting);
+	    return new ResponseEntity<Meeting>(meeting, HttpStatus.ACCEPTED);
+	}
 	
 	
 	

@@ -59,4 +59,11 @@ public class MeetingService {
 		session.delete(meeting);
 		transaction.commit();
 	}
+	
+	public Meeting update(Meeting meeting) {
+		Transaction transaction = this.session.beginTransaction();
+		session.merge(meeting);
+		transaction.commit();
+		return meeting;
+	}
 }
