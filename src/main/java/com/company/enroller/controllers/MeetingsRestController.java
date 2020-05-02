@@ -34,7 +34,7 @@ public class MeetingsRestController {
 	public ResponseEntity<?> getMeeting(@PathVariable("id") long id) {
 	    Meeting meeting = meetingService.findById(id);
 	    if (meeting == null) {
-	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
+	    	return meetingNotFound();
 	    }
 	    return new ResponseEntity<Meeting>(meeting, HttpStatus.OK); 
 		}
@@ -50,7 +50,7 @@ public class MeetingsRestController {
 		ParticipantService participantService = new ParticipantService();
 		Meeting meeting = meetingService.findById(id);
 	    if (meeting == null) {
-	    	return new ResponseEntity("Meeting not found.",HttpStatus.NOT_FOUND);
+	    	return meetingNotFound();
 	    }
 		Participant participant = participantService.findByLogin(login);
 		if (participant == null) {
@@ -64,8 +64,12 @@ public class MeetingsRestController {
 	public ResponseEntity<?> getMeetingParticipants(@PathVariable("id") long id) {
 	    Meeting meeting = meetingService.findById(id);
 	    if (meeting == null) {
-	    	return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);
+	    	return meetingNotFound();
 	    }
 	    return new ResponseEntity<Collection<String>>(meetingService.getParticipants(meeting), HttpStatus.OK); 
-		}
+	}
+	
+	private ResponseEntity meetingNotFound() {
+		return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);
+	}
 }
