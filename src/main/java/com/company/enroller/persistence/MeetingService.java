@@ -36,13 +36,15 @@ public class MeetingService {
 		return meeting;
 	}
 	
-	public Participant addParticipant(long id, Participant participant) {
+	public Participant addParticipant(Meeting meeting, Participant participant) {
 		Transaction transaction = this.session.beginTransaction();
-		Meeting meeting = findById(id);
 		meeting.addParticipant(participant);
 		session.merge(meeting);
 		transaction.commit();
 		return participant;
 	}
-
+	
+	public Collection<Participant> getParticipants(Meeting meeting) {
+		return meeting.getParticipants();
+	}
 }

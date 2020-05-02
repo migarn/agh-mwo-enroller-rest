@@ -48,11 +48,24 @@ public class MeetingsRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	public ResponseEntity<?> addParticipant(@PathVariable("id") long id, @RequestParam String login) {
 		ParticipantService participantService = new ParticipantService();
+		Meeting meeting = meetingService.findById(id);
+	    if (meeting == null) {
+	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
+	    }
 		Participant participant = participantService.findByLogin(login);
 		if (participant == null) {
 			return new ResponseEntity("Unable to create. A participant with login " + login + " not found.",HttpStatus.NOT_FOUND);
 		}
-		meetingService.addParticipant(id, participant);
+		meetingService.addParticipant(meeting, participant);
 	    return new ResponseEntity<Participant>(participant, HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/{id}/participants", method = RequestMethod.GET)
+	public ResponseEntity<?> getMeetingParticipants(@PathVariable("id") long id) {
+	    Meeting meeting = meetingService.findById(id);
+	    if (meeting == null) {
+	    	return new ResponseEntity(HttpStatus.NOT_FOUND);
+	    }
+	    return new ResponseEntity<Collection<Participant>>(meeting.getParticipants(), HttpStatus.OK); 
+		}
 }
