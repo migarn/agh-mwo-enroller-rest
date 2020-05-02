@@ -34,7 +34,7 @@ public class ParticipantRestController {
 	    	return participantNotFound();
 	    }
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
-		}
+	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<?> registerParticipant(@RequestBody Participant participant) {
@@ -55,7 +55,7 @@ public class ParticipantRestController {
 	    }
 	    participantService.delete(participant);
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
-		}
+	}
 	
 	@RequestMapping(value = "", method = RequestMethod.PUT)
 	public ResponseEntity<?> updatePassword(@RequestBody Participant participant) {

@@ -69,6 +69,22 @@ public class MeetingsRestController {
 	    return new ResponseEntity<Collection<String>>(meetingService.getParticipants(meeting), HttpStatus.OK); 
 	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") long id) {
+	    Meeting meeting = meetingService.findById(id);
+	    if (meeting == null) { 
+	    	return meetingNotFound();
+	    }
+	    meetingService.delete(meeting);
+	    return new ResponseEntity<Meeting>(meeting, HttpStatus.OK); 
+	}
+	
+	
+	
+	
+	
+	
+	
 	private ResponseEntity meetingNotFound() {
 		return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);
 	}
