@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.enroller.model.Meeting;
 import com.company.enroller.model.Participant;
 import com.company.enroller.persistence.MeetingService;
+import com.company.enroller.persistence.ParticipantService;
 
 @RestController
 @RequestMapping("/meetings")
@@ -44,8 +45,13 @@ public class MeetingsRestController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public ResponseEntity<?> addParticipant(@RequestBody Meeting meeting) {
-	    meetingService.add(meeting);
-	    return new ResponseEntity<Meeting>(meeting, HttpStatus.CREATED);
+	public ResponseEntity<?> addParticipant(@PathVariable("id") long id, @RequestBody String login) {
+		ParticipantService participantService = new ParticipantService();
+		Participant participant = participantService.findByLogin(login);
+		if (participant == null) {
+			return new ResponseEntity("Unable to create. A participant with login " + login + " not found.",HttpStatus.NOT_FOUND);
+		}
+		meetingService.addParticipant(id, participant);
+	    return new ResponseEntity<Participant>(participant, HttpStatus.CREATED);
 	}
 }
