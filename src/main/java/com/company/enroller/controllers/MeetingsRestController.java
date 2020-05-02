@@ -47,11 +47,11 @@ public class MeetingsRestController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	public ResponseEntity<?> addParticipant(@PathVariable("id") long id, @RequestBody String login) {
-		ParticipantService participantService = new ParticipantService();
 		Meeting meeting = meetingService.findById(id);
 	    if (meeting == null) {
 	    	return meetingNotFound();
 	    }
+	    ParticipantService participantService = new ParticipantService();
 		Participant participant = participantService.findByLogin(login);
 		if (participant == null) {
 			return new ResponseEntity("Unable to create. Participant with login " + login + " not found.",HttpStatus.NOT_FOUND);
@@ -91,6 +91,23 @@ public class MeetingsRestController {
 	    meetingService.update(meeting);
 	    return new ResponseEntity<Meeting>(meeting, HttpStatus.ACCEPTED);
 	}
+	
+	@RequestMapping(value = "/{id}/{participant_id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteParticipant(@PathVariable("id") long id, @PathVariable("participant_id") String login) {
+	    Meeting meeting = meetingService.findById(id);
+	    if (meeting == null) { 
+	    	return meetingNotFound();
+	    }
+	    ParticipantService participantService = new ParticipantService();
+	    Participant participant = participantService.findByLogin(login);
+	    if (!meeting.getParticipants().contains(participant)) {
+	    	return new ResponseEntity("Participant not found on meeting's participants list.", HttpStatus.NOT_FOUND);
+	    }
+	    meetingService.deleteParticipant(meeting, participant);
+	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
+	}
+	
+	// add uniemożliwić drugi raz
 	
 	
 	
