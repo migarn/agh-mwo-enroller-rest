@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.enroller.model.Meeting;
@@ -45,7 +46,7 @@ public class MeetingsRestController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public ResponseEntity<?> addParticipant(@PathVariable("id") long id, @RequestBody String login) {
+	public ResponseEntity<?> addParticipant(@PathVariable("id") long id, @RequestParam String login) {
 		ParticipantService participantService = new ParticipantService();
 		Participant participant = participantService.findByLogin(login);
 		if (participant == null) {
