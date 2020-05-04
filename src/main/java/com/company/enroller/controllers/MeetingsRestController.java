@@ -1,5 +1,6 @@
 package com.company.enroller.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class MeetingsRestController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<?> getMeetings() {
-		Collection<Meeting> participants = meetingService.getAll();
-		return new ResponseEntity<Collection<Meeting>>(participants, HttpStatus.OK);
+		Collection<Meeting> meetings = meetingService.getAll();
+		return new ResponseEntity<Collection<Meeting>>(meetings, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -112,8 +113,8 @@ public class MeetingsRestController {
 	
 	@RequestMapping(value = "/sorted", method = RequestMethod.GET)
 	public ResponseEntity<?> getMeetingsSorted() {
-		Collection<Meeting> participants = meetingService.getAllSorted();
-		return new ResponseEntity<Collection<Meeting>>(participants, HttpStatus.OK);
+		ArrayList<Meeting> meetings = meetingService.getAllSorted();
+		return new ResponseEntity<ArrayList<Meeting>>(meetings, HttpStatus.OK);
 	}
 	
 	private ResponseEntity meetingNotFound() {

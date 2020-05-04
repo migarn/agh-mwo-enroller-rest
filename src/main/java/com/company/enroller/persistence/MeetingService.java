@@ -78,7 +78,7 @@ public class MeetingService {
 		return meeting;
 	}
 	
-	public Collection<Meeting> getAllSorted() {
+	public ArrayList<Meeting> getAllSorted() {
 		
 		Comparator<Meeting> compareByTitle = new Comparator<Meeting>() {
 			@Override
@@ -88,9 +88,12 @@ public class MeetingService {
 		};
 		
 		ArrayList<Meeting> sortedMeetings = new ArrayList<>();
-		Collections.copy(sortedMeetings, (ArrayList<Meeting>) getAll());		
-		Collections.sort(sortedMeetings, compareByTitle);
 		
+		for (Meeting meeting : getAll()) {
+			sortedMeetings.add(meeting);
+		}
+		
+		Collections.sort(sortedMeetings, compareByTitle);
 		return sortedMeetings;
 	}
 }
