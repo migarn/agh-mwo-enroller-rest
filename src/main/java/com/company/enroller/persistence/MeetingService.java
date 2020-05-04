@@ -1,6 +1,9 @@
 package com.company.enroller.persistence;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -73,5 +76,21 @@ public class MeetingService {
 		session.save(meeting);
 		transaction.commit();
 		return meeting;
+	}
+	
+	public Collection<Meeting> getAllSorted() {
+		
+		Comparator<Meeting> compareByTitle = new Comparator<Meeting>() {
+			@Override
+			public int compare(Meeting meeting1, Meeting meeting2) {
+				return meeting1.getTitle().compareTo(meeting2.getTitle());
+			}
+		};
+		
+		ArrayList<Meeting> sortedMeetings = new ArrayList<>();
+		Collections.copy(sortedMeetings, (ArrayList<Meeting>) getAll());		
+		Collections.sort(sortedMeetings, compareByTitle);
+		
+		return sortedMeetings;
 	}
 }

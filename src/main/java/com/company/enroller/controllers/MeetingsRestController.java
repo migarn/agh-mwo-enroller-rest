@@ -110,6 +110,12 @@ public class MeetingsRestController {
 	    return new ResponseEntity<Participant>(participant, HttpStatus.OK); 
 	}
 	
+	@RequestMapping(value = "/sorted", method = RequestMethod.GET)
+	public ResponseEntity<?> getMeetingsSorted() {
+		Collection<Meeting> participants = meetingService.getAllSorted();
+		return new ResponseEntity<Collection<Meeting>>(participants, HttpStatus.OK);
+	}
+	
 	private ResponseEntity meetingNotFound() {
 		return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);
 	}
