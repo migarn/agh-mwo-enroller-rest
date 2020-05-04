@@ -98,13 +98,24 @@ public class MeetingService {
 		return sortedMeetings;
 	}
 	
-	public Collection<Meeting> getAllFiltered(String titleFilter, String descriptionFilter) {
+	public Collection<Meeting> getAllContentFiltered(String titleFilter, String descriptionFilter) {
 		ArrayList<Meeting> filteredMeetings = new ArrayList<>();
 		
 		for (Meeting meeting : getAll()) {
-			
 			if (meeting.getTitle().toLowerCase().contains(titleFilter.toLowerCase()) &&
 					meeting.getDescription().toLowerCase().contains(descriptionFilter.toLowerCase())) {
+				filteredMeetings.add(meeting);
+			}
+		}
+		
+		return filteredMeetings;
+	}
+	
+	public Collection<Meeting> getAllParticipantFiltered(Participant participant) {
+		ArrayList<Meeting> filteredMeetings = new ArrayList<>();
+		
+		for (Meeting meeting : getAll()) {
+			if (meeting.getParticipants().contains(participant)) {
 				filteredMeetings.add(meeting);
 			}
 		}

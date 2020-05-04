@@ -55,7 +55,7 @@ public class MeetingsRestController {
 	    ParticipantService participantService = new ParticipantService();
 		Participant participant = participantService.findByLogin(login);
 		if (participant == null) {
-			return new ResponseEntity("Unable to create. Participant with login " + login + " not found.",HttpStatus.NOT_FOUND);
+			return participantNotFound();
 		}
 	    if (meeting.getParticipants().contains(participant)) {
 	    	return new ResponseEntity("Participant already exist on meeting's participants list.", HttpStatus.CONFLICT);
@@ -104,6 +104,9 @@ public class MeetingsRestController {
 	    }
 	    ParticipantService participantService = new ParticipantService();
 	    Participant participant = participantService.findByLogin(login);
+	    if (participant == null) {
+	    	return participantNotFound();
+	    }
 	    if (!meeting.getParticipants().contains(participant)) {
 	    	return new ResponseEntity("Participant not found on meeting's participants list.", HttpStatus.NOT_FOUND);
 	    }
@@ -118,8 +121,22 @@ public class MeetingsRestController {
 	}
 	
 	@RequestMapping(value = "/filtered", method = RequestMethod.GET)
-	public ResponseEntity<?> getMeetingsFiltered(@RequestParam String titleFilter, @RequestParam String descFilter) {
-		Collection<Meeting> meetings = meetingService.getAllFiltered(titleFilter, descFilter);
+	public ResponseEntity<?> getMeetingsContentFiltered(@RequestParam String titleFilter, @RequestParam String descFilter) {
+		Collection<Meeting> meetings = meetingService.getAllContentFiltered(titleFilter, descFilter);
+	    if (meetings.isEmpty()) {
+	    	return meetingNotFound();
+	    }
+		return new ResponseEntity<Collection<Meeting>>(meetings, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/participant", method = RequestMethod.GET)
+	public ResponseEntity<?> getMeetingsParticipantFiltered(@RequestBody String login) {
+	    ParticipantService participantService = new ParticipantService();
+	    Participant participant = participantService.findByLogin(login);
+	    if (participant == null) {
+	    	return participantNotFound();
+	    }
+		Collection<Meeting> meetings = meetingService.getAllParticipantFiltered(participant);
 	    if (meetings.isEmpty()) {
 	    	return meetingNotFound();
 	    }
@@ -128,5 +145,9 @@ public class MeetingsRestController {
 	
 	private ResponseEntity meetingNotFound() {
 		return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);
+	}
+	
+	private ResponseEntity participantNotFound() {
+		return new ResponseEntity("Participant not found.", HttpStatus.NOT_FOUND);
 	}
 }
