@@ -1,5 +1,6 @@
 package com.company.enroller.persistence;
 
+import java.awt.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -78,7 +79,7 @@ public class MeetingService {
 		return meeting;
 	}
 	
-	public ArrayList<Meeting> getAllSorted() {
+	public Collection<Meeting> getAllSorted() {
 		
 		Comparator<Meeting> compareByTitle = new Comparator<Meeting>() {
 			@Override
@@ -95,5 +96,11 @@ public class MeetingService {
 		
 		Collections.sort(sortedMeetings, compareByTitle);
 		return sortedMeetings;
+	}
+	
+	public Collection<Meeting> getAllFiltered(String titleFilter, String descriptionFilter) {
+		Collection<Meeting> filteredMeetings = new ArrayList<>();
+		
+		return filteredMeetings;
 	}
 }
