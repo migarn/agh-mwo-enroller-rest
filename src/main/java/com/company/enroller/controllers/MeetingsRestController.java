@@ -117,11 +117,14 @@ public class MeetingsRestController {
 		return new ResponseEntity<Collection<Meeting>>(meetings, HttpStatus.OK);
 	}
 	
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public ResponseEntity<?> getMeetingsFiltered(@RequestParam String titleFilter, @RequestParam String descriptionFilter) {
-//		ArrayList<Meeting> meetings = meetingService.getAllFiltered(titleFilter, descriptionFilter);
-//		return new ResponseEntity<ArrayList<Meeting>>(meetings, HttpStatus.OK);
-//	}
+	@RequestMapping(value = "/filtered", method = RequestMethod.GET)
+	public ResponseEntity<?> getMeetingsFiltered(@RequestParam String titleFilter, @RequestParam String descFilter) {
+		Collection<Meeting> meetings = meetingService.getAllFiltered(titleFilter, descFilter);
+	    if (meetings.isEmpty()) {
+	    	return meetingNotFound();
+	    }
+		return new ResponseEntity<Collection<Meeting>>(meetings, HttpStatus.OK);
+	}
 	
 	private ResponseEntity meetingNotFound() {
 		return new ResponseEntity("Meeting not found.", HttpStatus.NOT_FOUND);

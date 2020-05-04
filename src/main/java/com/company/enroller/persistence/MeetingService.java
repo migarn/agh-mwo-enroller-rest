@@ -99,7 +99,15 @@ public class MeetingService {
 	}
 	
 	public Collection<Meeting> getAllFiltered(String titleFilter, String descriptionFilter) {
-		Collection<Meeting> filteredMeetings = new ArrayList<>();
+		ArrayList<Meeting> filteredMeetings = new ArrayList<>();
+		
+		for (Meeting meeting : getAll()) {
+			
+			if (meeting.getTitle().toLowerCase().contains(titleFilter.toLowerCase()) &&
+					meeting.getDescription().toLowerCase().contains(descriptionFilter.toLowerCase())) {
+				filteredMeetings.add(meeting);
+			}
+		}
 		
 		return filteredMeetings;
 	}
